@@ -2,7 +2,6 @@
 
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Camera, LockKeyhole, MoveVertical, RotateCcw, Upload } from 'lucide-react';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { formatPrice, products, type Product } from './data';
 
 type FitPreference = 'clean' | 'brand' | 'max';
@@ -98,9 +97,9 @@ export function ChangingRoom({ addToCart }: { addToCart: (product: Product, size
           <label><span>WAIST</span><div><input type="number" min="58" max="130" value={waist} onChange={(e)=>setWaist(Number(e.target.value))}/><b>CM</b></div></label>
         </div>
 
-        <fieldset className="fit-preference"><legend>HOW SHOULD IT WEAR?</legend><RadioGroup value={preference} onValueChange={(value) => setPreference(value as FitPreference)}>
-          {[['clean','CLEAN','LESS VOLUME'],['brand','BRAND FIT','CAMPAIGN PROPORTION'],['max','MAX VOLUME','EXAGGERATED']].map(([value,label,note]) => <label key={value}><RadioGroupItem value={value}/><span><b>{label}</b><small>{note}</small></span></label>)}
-        </RadioGroup></fieldset>
+        <fieldset className="fit-preference"><legend>HOW SHOULD IT WEAR?</legend><div className="fit-options">
+          {[['clean','CLEAN','LESS VOLUME'],['brand','BRAND FIT','CAMPAIGN PROPORTION'],['max','MAX VOLUME','EXAGGERATED']].map(([value,label,note]) => <label key={value}><input type="radio" name="fit-preference" value={value} checked={preference === value} onChange={() => setPreference(value as FitPreference)}/><span><b>{label}</b><small>{note}</small></span></label>)}
+        </div></fieldset>
 
         <div className="fit-result">
           <p>RECOMMENDED SIZE</p><strong>{recommendation.selected}</strong><div><span>{product.measure.toUpperCase()} EASE</span><b>+{recommendation.ease} CM</b></div><div><span>LENGTH</span><b>{recommendation.length}</b></div>
