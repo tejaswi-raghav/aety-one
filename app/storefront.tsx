@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ArrowDown, ArrowRight, Menu, Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { formatPrice, products, type Product } from './data';
-import { ChangingRoom } from './changing-room';
+import { AetyVerse } from './changing-room';
 
 type CartItem = { slug: string; size: string; quantity: number };
 type View = 'home' | 'drop' | 'archive' | 'cart' | 'product' | 'try-on';
@@ -72,7 +72,7 @@ export function Storefront({ view, slug }: { view: View; slug?: string }) {
       {view === 'archive' && <ArchivePage />}
       {view === 'cart' && <CartPage cart={cart} update={update} remove={remove} />}
       {view === 'product' && <ProductPage slug={slug} addToCart={addToCart} />}
-      {view === 'try-on' && <ChangingRoom addToCart={addToCart} />}
+      {view === 'try-on' && <AetyVerse />}
       <Footer />
       <CartDrawer open={cartOpen} setOpen={setCartOpen} cart={cart} update={update} remove={remove} />
     </div>
@@ -84,12 +84,12 @@ function Navigation({ count, openCart, menuOpen, setMenuOpen }: { count: number;
     <header className="nav">
       <a className="wordmark" href="/">ÆTY ONE®</a>
       <nav className="nav-links" aria-label="Primary navigation">
-        <a href="/drop-01">SHOP</a><a href="/changing-room">TRY ON</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a>
+        <a href="/drop-01">SHOP</a><a href="/aetyverse">AETYVERSE</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a>
       </nav>
       <button className="cart-link" onClick={openCart}>CART ({count})</button>
       <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</button>
     </header>
-    {menuOpen && <div className="mobile-menu"><a href="/drop-01">DROP 01</a><a href="/changing-room">TRY ON</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a><button onClick={openCart}>CART ({count})</button><small>SYSTEM ACTIVE / 2026</small></div>}
+    {menuOpen && <div className="mobile-menu"><a href="/drop-01">DROP 01</a><a href="/aetyverse">AETYVERSE</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a><button onClick={openCart}>CART ({count})</button><small>SYSTEM ACTIVE / 2026</small></div>}
   </>;
 }
 
@@ -175,7 +175,7 @@ function ProductPage({ slug, addToCart }: { slug?: string; addToCart: (p: Produc
         <dl><div><dt>COLOR</dt><dd>{product.color}</dd></div><div><dt>STATUS</dt><dd>AVAILABLE</dd></div></dl>
         <fieldset><legend>SELECT SIZE</legend><div className="sizes">{['XS','S','M','L','XL'].map((s) => <button className={s === size ? 'selected' : ''} key={s} onClick={() => setSize(s)}>{s}</button>)}</div></fieldset>
         <button className="add-button" onClick={() => addToCart(product, size)}>ADD TO CART <span>{formatPrice(product.price)}</span></button>
-        {Number(product.id) <= 4 && <a className="try-on-link" href={`/changing-room?product=${product.slug}`}>OPEN DIGITAL CHANGING ROOM <ArrowRight/></a>}
+        {Number(product.id) <= 4 && <a className="try-on-link" href="/aetyverse">BUILD IN AETYVERSE <ArrowRight/></a>}
         <button className="size-guide">SIZE GUIDE ↗</button>
         <div className="specs"><p>{product.description}</p><details open><summary>DETAILS</summary><ul>{product.details.map((d) => <li key={d}>{d}</li>)}</ul></details><details><summary>MATERIAL</summary><p>{product.material}</p></details><details><summary>FIT</summary><p>{product.fit}</p></details><details><summary>CARE / SHIPPING</summary><p>COLD WASH. DO NOT TUMBLE DRY. UAE DELIVERY 2—4 WORKING DAYS.</p></details></div>
       </aside>
