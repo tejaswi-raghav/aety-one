@@ -336,7 +336,15 @@ button { color: inherit; }
 .av-canvas.is-target { border-color: #d9ff3f; background: #1b1d17; }
 .av-canvas.has-photo { background: #0d0d0d; }
 .av-source-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: saturate(.9) contrast(1.03); }
+.av-source-photo.is-result { filter: none; }
 .av-grid { position: absolute; inset: 0; pointer-events: none; opacity: .14; background-image: linear-gradient(rgba(237,235,228,.28) 1px, transparent 1px), linear-gradient(90deg, rgba(237,235,228,.28) 1px, transparent 1px); background-size: 10% 10%; }
+.av-result-controls { position: absolute; z-index: 6; top: .65rem; left: 50%; display: grid; grid-template-columns: 1fr 1fr; transform: translateX(-50%); border: 1px solid #777; background: rgba(8,8,8,.9); }
+.av-result-controls button { min-width: 92px; min-height: 34px; border: 0; border-right: 1px solid #777; background: transparent; color: #8b8b86; font: 700 .58rem var(--font-geist-mono), monospace; cursor: pointer; }
+.av-result-controls button:last-child { border-right: 0; }
+.av-result-controls button.active { background: #d9ff3f; color: #080808; }
+.av-generating { position: absolute; z-index: 8; inset: 0; display: grid; place-items: center; align-content: center; gap: .8rem; background: rgba(8,8,8,.84); backdrop-filter: blur(5px); font: 800 .72rem var(--font-geist-mono), monospace; }
+.av-generating svg { width: 2.7rem; height: 2.7rem; color: #d9ff3f; animation: spin 1s linear infinite; }
+.av-generating span { color: #777; font-size: .56rem; }
 .av-upload { position: relative; z-index: 2; width: min(72%, 480px); aspect-ratio: 4/3; display: grid; place-items: center; align-content: center; gap: .9rem; border: 1px dashed #777; background: rgba(8,8,8,.7); cursor: pointer; font: 700 .75rem var(--font-geist-mono), monospace; }
 .av-upload svg { width: 3.5rem; height: 3.5rem; color: #345cff; }
 .av-upload span { color: #858580; font-size: .62rem; }
@@ -383,7 +391,11 @@ button { color: inherit; }
 .av-generate-panel > button { width: 100%; min-height: 54px; display: grid; grid-template-columns: auto 1fr auto; gap: .7rem; align-items: center; margin-top: .8rem; padding: 0 .9rem; border: 0; background: #345cff; color: white; font: 800 .72rem var(--font-geist-mono), monospace; cursor: pointer; }
 .av-generate-panel > button:disabled { background: #232323; color: #666; cursor: not-allowed; }
 .av-generate-panel > button svg { width: 1rem; }
+.av-generate-panel .av-spinner { animation: spin 1s linear infinite; }
+.av-download { width: 100%; min-height: 46px; display: grid; grid-template-columns: auto 1fr auto; gap: .7rem; align-items: center; margin-top: .5rem; padding: 0 .9rem; border: 1px solid #d9ff3f; color: #d9ff3f; font: 800 .65rem var(--font-geist-mono), monospace; }
+.av-download svg { width: 1rem; }
 .av-generate-panel p { min-height: 1.2rem; margin: .75rem 0 .5rem; color: #d9ff3f; font: 700 .58rem/1.45 var(--font-geist-mono), monospace; }
+.av-generate-panel p.is-error { color: #ff705b; }
 .av-generate-panel > small { display: block; color: #696965; font: 650 .54rem/1.45 var(--font-geist-mono), monospace; }
 
 .footer { background: #181818; padding-top: 6rem; }

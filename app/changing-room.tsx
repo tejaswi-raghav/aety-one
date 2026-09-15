@@ -1,10 +1,12 @@
 'use client';
 
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
-import { ArrowRight, ImagePlus, Layers3, LockKeyhole, Plus, Sparkles, Upload, X } from 'lucide-react';
+import { ArrowRight, Download, ImagePlus, Layers3, LoaderCircle, LockKeyhole, Plus, RotateCcw, Sparkles, Upload, X } from 'lucide-react';
 import { formatPrice, products, type Product } from './data';
 
 type Mode = 'replace' | 'add';
+type GenerationState = 'idle' | 'generating' | 'complete' | 'error';
+type ServiceStatus = 'checking' | 'ready' | 'setup';
 type StudioProduct = Product & { cutout: string; placement: string };
 
 const studioProducts: StudioProduct[] = [
@@ -16,15 +18,35 @@ const studioProducts: StudioProduct[] = [
 
 export function AetyVerse() {
   const [photo, setPhoto] = useState<string | null>(null);
+  const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [look, setLook] = useState<string[]>([]);
   const [mode, setMode] = useState<Mode>('replace');
   const [dragging, setDragging] = useState<string | null>(null);
   const [notice, setNotice] = useState('');
+  const [generation, setGeneration] = useState<GenerationState>('idle');
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [showGenerated, setShowGenerated] = useState(false);
+  const [serviceStatus, setServiceStatus] = useState<ServiceStatus>('checking');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => {
     if (photo?.startsWith('blob:')) URL.revokeObjectURL(photo);
   }, [photo]);
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/aetyverse/generate', { cache: 'no-store' })
+      .then((response) => response.json() as Promise<{ configured?: boolean }>)
+      .then((result) => { if (active) setServiceStatus(result.configured ? 'ready' : 'setup'); })
+      .catch(() => { if (active) setServiceStatus('setup'); });
+    return () => { active = false; };
+  }, []);
+
+  function resetResult() {
+    setGeneratedImage(null);
+    setShowGenerated(false);
+    setGeneration('idle');
+  }
 
   function handlePhoto(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -35,12 +57,15 @@ export function AetyVerse() {
     }
     if (photo?.startsWith('blob:')) URL.revokeObjectURL(photo);
     setPhoto(URL.createObjectURL(file));
+    setSourceFile(file);
+    resetResult();
     setNotice('PHOTO READY. BUILD YOUR LOOK.');
     event.target.value = '';
   }
 
   function addProduct(slug: string) {
     setLook((current) => current.includes(slug) ? current : [...current, slug]);
+    resetResult();
     setNotice('OBJECT ADDED TO LOOK.');
   }
 
@@ -53,11 +78,39 @@ export function AetyVerse() {
 
   function removeProduct(slug: string) {
     setLook((current) => current.filter((item) => item !== slug));
+    resetResult();
   }
 
-  function prepareGeneration() {
-    if (!photo || !look.length) return;
-    setNotice(`LOOK READY: ${mode === 'replace' ? 'REPLACE CURRENT OUTFIT' : 'ADD TO CURRENT OUTFIT'}. IMAGE GENERATION CONNECTS IN THE NEXT BUILD.`);
+  function changeMode(nextMode: Mode) {
+    setMode(nextMode);
+    resetResult();
+  }
+
+  async function generateLook() {
+    if (!sourceFile || !look.length || serviceStatus !== 'ready' || generation === 'generating') return;
+    setGeneration('generating');
+    setNotice('GENERATING YOUR AETYVERSE LOOK. THIS CAN TAKE UP TO A MINUTE.');
+
+    const body = new FormData();
+    body.append('photo', sourceFile);
+    body.append('mode', mode);
+    look.forEach((slug) => body.append('products', slug));
+
+    try {
+      const response = await fetch('/api/aetyverse/generate', { method: 'POST', body });
+      const result = await response.json() as { image?: string; error?: string; code?: string };
+      if (!response.ok || !result.image) {
+        if (result.code === 'engine_not_configured') setServiceStatus('setup');
+        throw new Error(result.error || 'AETYVERSE COULD NOT GENERATE THIS LOOK.');
+      }
+      setGeneratedImage(result.image);
+      setShowGenerated(true);
+      setGeneration('complete');
+      setNotice('LOOK GENERATED. COMPARE, DOWNLOAD OR GENERATE AGAIN.');
+    } catch (error) {
+      setGeneration('error');
+      setNotice(error instanceof Error ? error.message.toUpperCase() : 'AETYVERSE COULD NOT GENERATE THIS LOOK.');
+    }
   }
 
   return <main className="inner-page aetyverse-page">
@@ -69,7 +122,7 @@ export function AetyVerse() {
       <div className="av-intro">
         <p>BUILD A LOOK WITH YOUR IMAGE AND OBJECTS FROM DROP_01.</p>
         <div><span>01 UPLOAD</span><span>02 DROP OBJECTS</span><span>03 GENERATE</span></div>
-        <p className="av-privacy"><LockKeyhole/> YOUR SOURCE IMAGE STAYS IN THIS BROWSER DURING THIS FIRST STUDIO PHASE.</p>
+        <p className="av-privacy"><LockKeyhole/> YOUR IMAGE IS SENT SECURELY FOR GENERATION AND IS NOT SAVED BY AETYVERSE.</p>
       </div>
     </section>
 
@@ -81,9 +134,11 @@ export function AetyVerse() {
         </div>
 
         <div className={`av-canvas ${photo ? 'has-photo' : ''} ${dragging ? 'is-target' : ''}`} onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}>
-          {photo ? <img className="av-source-photo" src={photo} alt="Your AetyVerse source"/> : <button className="av-upload" onClick={() => inputRef.current?.click()}><ImagePlus/><b>DROP OR UPLOAD YOUR IMAGE</b><span>FULL-BODY OR PORTRAIT / JPG, PNG, WEBP</span></button>}
+          {photo ? <img className={`av-source-photo ${showGenerated ? 'is-result' : ''}`} src={showGenerated && generatedImage ? generatedImage : photo} alt={showGenerated ? 'Your generated AetyVerse look' : 'Your AetyVerse source'}/> : <button className="av-upload" onClick={() => inputRef.current?.click()}><ImagePlus/><b>DROP OR UPLOAD YOUR IMAGE</b><span>FULL-BODY OR PORTRAIT / JPG, PNG, WEBP</span></button>}
           <input ref={inputRef} className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" onChange={handlePhoto}/>
           <div className="av-grid" aria-hidden="true"/>
+          {generatedImage && <div className="av-result-controls"><button className={!showGenerated ? 'active' : ''} onClick={() => setShowGenerated(false)}>SOURCE</button><button className={showGenerated ? 'active' : ''} onClick={() => setShowGenerated(true)}>GENERATED</button></div>}
+          {generation === 'generating' && <div className="av-generating"><LoaderCircle/><b>CONSTRUCTING LOOK</b><span>IDENTITY / FIT / FABRIC / LIGHT</span></div>}
           {photo && !look.length && <div className="av-drop-message"><Layers3/><b>DRAG PRODUCTS HERE</b><span>THEY WILL FORM YOUR LOOK STACK</span></div>}
           {look.length > 0 && <div className="av-look-stack">
             <span>LOOK STACK / {String(look.length).padStart(2, '0')}</span>
@@ -92,12 +147,12 @@ export function AetyVerse() {
               return <article key={slug}><b>{String(index + 1).padStart(2, '0')}</b><img src={item.cutout} alt=""/><span>{item.name}</span><button aria-label={`Remove ${item.name}`} onClick={() => removeProduct(slug)}><X/></button></article>;
             })}</div>
           </div>}
-          <span className="av-canvas-code">SOURCE_01 / 2048PX TARGET / RGB</span>
+          <span className="av-canvas-code">{showGenerated ? 'RESULT_01' : 'SOURCE_01'} / PORTRAIT TARGET / RGB</span>
         </div>
 
         <div className="av-mode-row">
           <span>EDIT MODE</span>
-          <div><button className={mode === 'replace' ? 'active' : ''} onClick={() => setMode('replace')}>REPLACE OUTFIT</button><button className={mode === 'add' ? 'active' : ''} onClick={() => setMode('add')}>ADD PRODUCT</button></div>
+          <div><button className={mode === 'replace' ? 'active' : ''} onClick={() => changeMode('replace')}>REPLACE OUTFIT</button><button className={mode === 'add' ? 'active' : ''} onClick={() => changeMode('add')}>ADD PRODUCT</button></div>
         </div>
       </div>
 
@@ -113,9 +168,10 @@ export function AetyVerse() {
 
         <div className="av-generate-panel">
           <div><span>GENERATION INPUT</span><b>{photo ? 'IMAGE_01' : 'NO IMAGE'} / {look.length} OBJECT{look.length === 1 ? '' : 'S'}</b></div>
-          <button disabled={!photo || !look.length} onClick={prepareGeneration}><Sparkles/> GENERATE LOOK <ArrowRight/></button>
-          <p>{notice || 'UPLOAD AN IMAGE AND ADD AT LEAST ONE OBJECT.'}</p>
-          <small>PHASE 00.1 — THE WORKSPACE AND LOOK-BUILDING FLOW ARE LIVE. PHOTOREALISTIC IMAGE REPLACEMENT WILL BE CONNECTED NEXT.</small>
+          <button disabled={!photo || !look.length || generation === 'generating' || serviceStatus !== 'ready'} onClick={generateLook}>{generation === 'generating' ? <LoaderCircle className="av-spinner"/> : <Sparkles/>} {generation === 'generating' ? 'GENERATING LOOK' : generatedImage ? 'GENERATE AGAIN' : 'GENERATE LOOK'} {generatedImage ? <RotateCcw/> : <ArrowRight/>}</button>
+          {generatedImage && <a className="av-download" href={generatedImage} download="aetyverse-look.png"><Download/> DOWNLOAD RESULT <ArrowRight/></a>}
+          <p className={generation === 'error' || serviceStatus === 'setup' ? 'is-error' : ''}>{serviceStatus === 'checking' ? 'CHECKING IMAGE ENGINE…' : serviceStatus === 'setup' ? 'ENGINE SETUP REQUIRED — SECURE API KEY NOT CONFIGURED.' : notice || 'UPLOAD AN IMAGE AND ADD AT LEAST ONE OBJECT.'}</p>
+          <small>LIVE IMAGE EDIT PIPELINE — RESULTS ARE AI-GENERATED VISUALISATIONS. FIT AND SIZE ARE APPROXIMATE, NOT A GUARANTEE.</small>
         </div>
       </aside>
     </section>
