@@ -98,6 +98,18 @@ export async function POST(request: Request) {
   const source = input.get('photo');
   const mode = input.get('mode') === 'add' ? 'add' : 'replace';
   const productSlugs = [...new Set(input.getAll('products').filter((value): value is string => typeof value === 'string'))];
+  const rawProfile = input.get('profile');
+  let profileContext = '';
+  if (typeof rawProfile === 'string' && rawProfile.length < 1000) {
+    try {
+      const profile = JSON.parse(rawProfile) as Record<string, unknown>;
+      const allowed = ['height', 'chest', 'waist', 'hips', 'shoulder', 'inseam', 'fitPreference'];
+      const details = allowed.flatMap((key) => typeof profile[key] === 'string' && /^[a-z0-9. -]{1,20}$/i.test(profile[key] as string) ? [`${key}: ${profile[key]}${key === 'fitPreference' ? '' : ' cm'}`] : []);
+      if (details.length) profileContext = `\nCalibrated customer profile: ${details.join(', ')}.`;
+    } catch {
+      profileContext = '';
+    }
+  }
 
   if (!(source instanceof File)) {
     return json({ error: 'Upload a source image before generating.', code: 'missing_photo' }, 400);
@@ -115,7 +127,7 @@ export async function POST(request: Request) {
     ? 'Replace the visible clothing on the person with the selected products.'
     : 'Add the selected products naturally to the current outfit, replacing only directly conflicting garments.';
 
-  const prompt = `Create a photorealistic virtual try-on edit. ${instruction}
+  const prompt = `Create a photorealistic virtual try-on edit. ${instruction}${profileContext}
 
 Selected products:
 ${selectedDescription}

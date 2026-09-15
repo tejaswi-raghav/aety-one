@@ -313,7 +313,7 @@ button { color: inherit; }
 .matrix-table b { text-align: center; border-left: 1px solid #080808; }
 
 .aetyverse-page { background: #080808; color: #edebe4; }
-.av-head { min-height: 58vh; display: grid; grid-template-columns: 1.45fr .65fr; gap: 4rem; align-items: end; padding-top: 7rem; padding-bottom: 2.5rem; background: #edebe4; color: #080808; }
+.av-head { min-height: 42vh; display: grid; grid-template-columns: 1.45fr .65fr; gap: 4rem; align-items: end; padding-top: 7rem; padding-bottom: 2.5rem; background: #edebe4; color: #080808; }
 .av-head .eyebrow { color: #555; }
 .av-head h1 { margin: 0; font: 900 clamp(5rem, 12vw, 12.5rem)/.7 Arial Narrow, Impact, sans-serif; letter-spacing: -.075em; transform: scaleX(.9); transform-origin: left; }
 .av-head h1 i { color: #345cff; font-style: normal; }
@@ -324,6 +324,48 @@ button { color: inherit; }
 .av-intro > div span:last-child { border-right: 0; }
 .av-privacy { display: flex; gap: .6rem; align-items: flex-start; margin-top: 1rem; color: #555; font: 650 .63rem/1.5 var(--font-geist-mono), monospace; }
 .av-privacy svg { flex: 0 0 1rem; width: 1rem; }
+.av-calibration { display: grid; grid-template-columns: .72fr 1.15fr .72fr; gap: clamp(1rem, 2.5vw, 3rem); padding-top: 3.5rem; padding-bottom: 3.5rem; border-top: 1px solid #424242; background: #101010; }
+.av-calibration-title .eyebrow { display: flex; align-items: center; gap: .55rem; color: #8b8b86; }
+.av-calibration-title .eyebrow svg { width: 1rem; }
+.av-calibration-title h2 { margin: 1.2rem 0; font: 900 clamp(3.2rem, 5.4vw, 6.7rem)/.78 Arial Narrow, Impact, sans-serif; letter-spacing: -.065em; }
+.av-calibration-title h2 i { color: #345cff; font-style: normal; }
+.av-calibration-title > p:last-of-type { max-width: 28rem; color: #9b9b96; font: 650 .76rem/1.6 var(--font-geist-mono), monospace; }
+.av-calibration-meter { position: relative; height: 38px; margin-top: 1.4rem; overflow: hidden; border: 1px solid #4a4a48; }
+.av-calibration-meter span { position: absolute; inset: 0 auto 0 0; background: #345cff; transition: width .25s ease; }
+.av-calibration-meter b { position: relative; z-index: 1; display: flex; height: 100%; align-items: center; padding: 0 .65rem; font: 750 .7rem var(--font-geist-mono), monospace; }
+.av-measurements { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid #454543; background: #454543; }
+.av-measurements label { min-width: 0; background: #151515; }
+.av-measurements label > span { display: block; padding: .55rem .6rem; border-bottom: 1px solid #454543; color: #94948f; font: 750 .7rem var(--font-geist-mono), monospace; }
+.av-measurements label > div { display: flex; align-items: center; padding: .75rem .6rem; }
+.av-measurements input { min-width: 0; width: 100%; border: 0; outline: none; background: transparent; color: #edebe4; font: 900 1.55rem Arial Narrow, Arial, sans-serif; }
+.av-measurements input::placeholder { color: #4f4f4c; }
+.av-measurements input[aria-invalid="true"] { color: #ff705b; }
+.av-measurements label b { color: #777; font: 750 .68rem var(--font-geist-mono), monospace; }
+.av-fit-preference { margin: 1.2rem 0 0; padding: 0; border: 0; }
+.av-fit-preference legend { margin-bottom: .65rem; color: #94948f; font: 750 .7rem var(--font-geist-mono), monospace; }
+.av-fit-preference > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid #454543; background: #454543; }
+.av-fit-preference label { min-height: 64px; display: flex; align-items: center; gap: .55rem; padding: .65rem; background: #151515; cursor: pointer; }
+.av-fit-preference label.active { background: #edebe4; color: #080808; }
+.av-fit-preference input { width: 1rem; height: 1rem; accent-color: #345cff; }
+.av-fit-preference label span { display: grid; gap: .2rem; }
+.av-fit-preference label b { font: 800 .68rem var(--font-geist-mono), monospace; }
+.av-fit-preference label small { color: #7b7b76; font: 650 .68rem/1.25 Arial, sans-serif; }
+.av-prototype-note { display: block; margin-top: .9rem; color: #74746f; font: 650 .67rem/1.5 var(--font-geist-mono), monospace; }
+.av-salesperson { display: flex; min-width: 0; flex-direction: column; padding: 1rem; border: 1px solid #d9ff3f; background: #0a0a0a; }
+.av-salesperson > div:first-child { display: flex; align-items: center; gap: .6rem; padding-bottom: .8rem; border-bottom: 1px solid #3f3f3d; color: #d9ff3f; font: 800 .7rem var(--font-geist-mono), monospace; }
+.av-salesperson > div:first-child svg { width: 1rem; }
+.av-salesperson > div:first-child i { width: .5rem; height: .5rem; margin-left: auto; border-radius: 50%; background: #696965; }
+.av-salesperson > div:first-child i.is-ready { background: #d9ff3f; box-shadow: 0 0 14px rgba(217,255,63,.8); }
+.av-salesperson > p { margin: 1rem 0 1.5rem; font: 800 1rem/1.45 var(--font-geist-mono), monospace; }
+.av-color-advice { display: grid; gap: .65rem; margin-top: auto; }
+.av-color-advice > span { display: flex; align-items: center; gap: .45rem; color: #8b8b86; font: 750 .68rem var(--font-geist-mono), monospace; }
+.av-color-advice > span svg { width: 1rem; }
+.av-color-advice > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+.av-color-advice button { display: flex; padding: .32rem; border: 1px solid #494947; background: transparent; cursor: pointer; }
+.av-color-advice button.active { border-color: #d9ff3f; }
+.av-color-advice button i { flex: 1; height: 22px; }
+.av-color-advice > b { font: 900 1.15rem Arial Narrow, Arial, sans-serif; }
+.av-color-advice > small { color: #969691; font: 650 .68rem/1.5 var(--font-geist-mono), monospace; }
 .av-studio { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(370px, .72fr); border-top: 1px solid #424242; }
 .av-canvas-column { position: sticky; top: 58px; height: calc(100vh - 58px); display: grid; grid-template-rows: 50px minmax(0, 1fr) 64px; padding: 0 1rem 1rem; background: #101010; }
 .av-toolbar { display: flex; justify-content: space-between; align-items: center; color: #a7a7a2; font: 700 .66rem var(--font-geist-mono), monospace; }
@@ -381,6 +423,10 @@ button { color: inherit; }
 .av-products article > div:first-child span { position: absolute; top: .35rem; right: .35rem; padding: .3rem .35rem; background: #edebe4; color: #080808; font: 800 .52rem var(--font-geist-mono), monospace; }
 .av-products p { margin: .65rem 0 .35rem; color: #777; font: 700 .55rem var(--font-geist-mono), monospace; }
 .av-products h2 { min-height: 2rem; margin: 0; font: 900 .92rem/1 Arial Narrow, Arial, sans-serif; }
+.av-fit-note { display: grid; gap: .28rem; margin-top: .65rem; padding: .55rem; border: 1px solid #d9ff3f; background: #11130c; }
+.av-fit-note span { display: flex; align-items: center; gap: .4rem; color: #d9ff3f; font: 800 .62rem var(--font-geist-mono), monospace; }
+.av-fit-note span svg { width: .85rem; }
+.av-fit-note small { color: #aaa; font: 650 .58rem/1.4 var(--font-geist-mono), monospace; }
 .av-products footer { display: flex; justify-content: space-between; align-items: end; margin-top: .45rem; font: 700 .6rem var(--font-geist-mono), monospace; }
 .av-products footer button { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid #555; background: transparent; cursor: pointer; }
 .av-products footer button:hover, .av-products footer button.added { border-color: #d9ff3f; color: #d9ff3f; }
@@ -483,8 +529,12 @@ button { color: inherit; }
   .size-matrix { grid-template-columns: 1fr; gap: 2rem; min-height: auto; padding-top: 5rem; padding-bottom: 5rem; overflow: hidden; }
   .matrix-table { overflow-x: auto; }
   .matrix-table > div { min-width: 560px; }
-  .av-head { min-height: calc(100svh - 58px); grid-template-columns: 1fr; gap: 2rem; align-content: end; }
+  .av-head { min-height: 64svh; grid-template-columns: 1fr; gap: 2rem; align-content: end; }
   .av-head h1 { font-size: 25vw; }
+  .av-calibration { grid-template-columns: 1fr; }
+  .av-calibration-title h2 { font-size: 16vw; }
+  .av-measurements { grid-template-columns: repeat(2, 1fr); }
+  .av-salesperson { min-height: 340px; }
   .av-studio { display: flex; flex-direction: column; }
   .av-canvas-column { position: relative; top: auto; height: 78svh; min-height: 640px; padding: 0 .7rem .7rem; }
   .av-mode-row > div { min-width: 260px; }
