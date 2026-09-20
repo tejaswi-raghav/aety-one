@@ -1,5 +1,3 @@
-import { env } from 'cloudflare:workers';
-
 export const runtime = 'edge';
 
 const MODEL = 'gpt-image-2.5-sunburst';
@@ -40,7 +38,7 @@ function json(body: unknown, status = 200) {
 }
 
 function getApiKey() {
-  return (env as unknown as Record<string, string | undefined>).OPENAI_API_KEY?.trim();
+  return process.env.OPENAI_API_KEY?.trim();
 }
 
 function clientId(request: Request) {
