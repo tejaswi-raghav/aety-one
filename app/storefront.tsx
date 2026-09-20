@@ -7,7 +7,7 @@ import { formatPrice, products, type Product } from './data';
 import { AetyVerse } from './changing-room';
 
 type CartItem = { slug: string; size: string; quantity: number };
-type View = 'home' | 'drop' | 'archive' | 'cart' | 'product' | 'try-on';
+type View = 'home' | 'drop' | 'archive' | 'cart' | 'product' | 'try-on' | 'odin';
 
 export function Storefront({ view, slug }: { view: View; slug?: string }) {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -73,6 +73,7 @@ export function Storefront({ view, slug }: { view: View; slug?: string }) {
       {view === 'cart' && <CartPage cart={cart} update={update} remove={remove} />}
       {view === 'product' && <ProductPage slug={slug} addToCart={addToCart} />}
       {view === 'try-on' && <AetyVerse />}
+      {view === 'odin' && <OdinPage />}
       <Footer />
       <CartDrawer open={cartOpen} setOpen={setCartOpen} cart={cart} update={update} remove={remove} />
     </div>
@@ -84,12 +85,12 @@ function Navigation({ count, openCart, menuOpen, setMenuOpen }: { count: number;
     <header className="nav">
       <a className="wordmark" href="/">ÆTY ONE®</a>
       <nav className="nav-links" aria-label="Primary navigation">
-        <a href="/drop-01">SHOP</a><a href="/aetyverse">AETYVERSE</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a>
+        <a href="/drop-01">SHOP</a><a href="/odin">MEET ODIN</a><a href="/aetyverse">AETYVERSE</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a>
       </nav>
       <button className="cart-link" onClick={openCart}>CART ({count})</button>
       <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</button>
     </header>
-    {menuOpen && <div className="mobile-menu"><a href="/drop-01">DROP 01</a><a href="/aetyverse">AETYVERSE</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a><button onClick={openCart}>CART ({count})</button><small>SYSTEM ACTIVE / 2026</small></div>}
+    {menuOpen && <div className="mobile-menu"><a href="/drop-01">DROP 01</a><a href="/odin">MEET ODIN</a><a href="/aetyverse">AETYVERSE</a><a href="/archive">ARCHIVE</a><a href="/#manifesto">MANIFESTO</a><button onClick={openCart}>CART ({count})</button><small>SYSTEM ACTIVE / 2026</small></div>}
   </>;
 }
 
@@ -104,6 +105,7 @@ function Home() {
       <a className="scroll" href="#drop">SCROLL <ArrowDown /></a>
     </section>
     <Ticker />
+    <MeetOdinTeaser />
     <section id="drop" className="drop-intro section-pad">
       <div><p className="eyebrow">DROP_01 / 2026/01</p><h2>INITIAL<br/>CONDITIONS</h2></div>
       <div className="drop-note"><p>THE FIRST ÆTY ONE CAPSULE.</p><p>SEVEN OBJECTS BUILT BETWEEN TERRACE, STREET AND NIGHT.</p><a href="/drop-01">VIEW COMPLETE DROP <ArrowRight /></a></div>
@@ -111,6 +113,48 @@ function Home() {
     <ProductGrid items={products.slice(0, 4)} />
     <Campaign />
     <Manifesto />
+  </main>;
+}
+
+function MeetOdinTeaser() {
+  return <section className="odin-teaser">
+    <img src="/odin/meet-odin-port.png" alt="Odin crossing a rain-darkened international cargo port carrying an archival case" />
+    <div className="odin-teaser-shade" />
+    <div className="odin-teaser-index"><span>TRANSMISSION_001</span><span>FICTIONAL AI CHARACTER / ÆTY ONE</span></div>
+    <div className="odin-teaser-copy"><p>BEFORE THE SHIFT</p><h2>MEET<br/>ODIN.</h2><div><span>GLOBAL ARTIFACT HUNTER.<br/>HUMAN, AS FAR AS HE KNOWS.</span><a href="/odin">WATCH THE FILM <ArrowRight /></a></div></div>
+  </section>;
+}
+
+function OdinPage() {
+  return <main className="inner-page odin-page">
+    <section className="odin-film">
+      <div className="odin-film-meta"><span>ÆTY ONE / CHARACTER 001</span><span>TRANSMISSION: ACTIVE</span></div>
+      <video controls playsInline preload="metadata" poster="/odin/meet-odin-port.png" aria-label="Meet Odin — an ÆTY ONE origin film">
+        <source src="/odin/meet-odin-film-v1.webm" type="video/webm" />
+        Your browser does not support embedded video.
+      </video>
+      <div className="odin-film-title"><p>AN ÆTY ONE ORIGIN FILM</p><h1>MEET ODIN.</h1><span>00:16 / TRANSMISSION_001</span></div>
+    </section>
+
+    <section className="odin-intro section-pad">
+      <div><p className="eyebrow">ODIN / RUDRA / CHARACTER_001</p><h2>HE FINDS<br/>WHAT OTHERS<br/>CAN'T.</h2></div>
+      <div className="odin-intro-copy">
+        <p>Odin is a high-end global artifact hunter. He crosses borders, private archives and forgotten routes to recover objects that should not exist.</p>
+        <p>He thinks he is human. He is—just not only human.</p>
+        <dl><div><dt>BASE</dt><dd>EVERYWHERE / NOWHERE</dd></div><div><dt>OCCUPATION</dt><dd>RECOVERY SPECIALIST</dd></div><div><dt>KNOWN AS</dt><dd>THE BETWEEN</dd></div><div><dt>STATUS</dt><dd>UNAWARE</dd></div></dl>
+      </div>
+    </section>
+
+    <section className="odin-split">
+      <figure><img src="/odin/meet-odin-reflection.png" alt="Odin facing a reflection that appears fractionally out of sync" /><figcaption>ARCHIVE CORRIDOR / TIME INDEX UNKNOWN</figcaption></figure>
+      <div className="odin-split-copy"><p className="eyebrow">THE FIRST ANOMALY</p><blockquote>“Different time.<br/>Same man.”</blockquote><p>Watches stop. Shadows disagree. Reflections arrive late. Odin treats each incident like bad equipment—until the evidence begins using his name.</p></div>
+    </section>
+
+    <section className="odin-statement section-pad">
+      <p>BEFORE THE MYTH</p><h2>A MAN.<br/>BEFORE THE POWER<br/>A PURPOSE.</h2><div><span>ODIN IS THE MAN.</span><span>RUDRA IS WHAT AWAKENS.</span></div>
+    </section>
+
+    <section className="odin-disclosure section-pad"><span>CREATIVE DISCLOSURE</span><p>Odin is a fictional AI character created by ÆTY ONE. His world is fictional; his identity remains consistent across every appearance.</p><a href="/">RETURN TO ÆTY ONE <ArrowRight /></a></section>
   </main>;
 }
 
