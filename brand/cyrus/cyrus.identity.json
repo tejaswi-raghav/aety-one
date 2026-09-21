@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "aety-one.character.cyrus",
+  "displayName": "Cyrus",
+  "status": "candidate-reference",
+  "disclosure": "Cyrus is a fictional AI character created for the ÆTY ONE universe.",
+  "heritage": {
+    "nationality": "Persian / Iranian",
+    "ethnicity": "Persian",
+    "languages": ["Persian", "English"],
+    "rule": "Heritage is carried through history, manner, private life, and taste—not costume or stereotype."
+  },
+  "story": {
+    "archetype": "Outsider to strategist to self-made power broker",
+    "philosophy": "Power isn't inherited. It's constructed.",
+    "centralPrinciple": "Cyrus does not become powerful and then develop confidence. His unreasonable confidence causes the world to rearrange itself around him.",
+    "stages": ["The Outsider", "The Operator", "The Kingmaker", "The Man"]
+  },
+  "appearance": {
+    "apparentAge": 30,
+    "presentation": "male",
+    "heightImpression": "approximately six feet",
+    "build": "lean athletic fighter or runner; strong silhouette without bodybuilder mass",
+    "complexion": "warm olive",
+    "face": "angular masculine face, pronounced cheekbones, strong brows, defined jaw",
+    "eyes": "dark brown, observant, calm under threat",
+    "hair": "thick medium-short dark hair, slightly wavy and naturally textured, imperfect at the forehead",
+    "facialHair": "short carefully maintained dark stubble",
+    "skinDetail": "natural pores and texture; never plastic-smooth"
+  },
+  "performance": {
+    "baseline": "audacious, pragmatic, witty, observant, opportunistic, exceptionally self-assured",
+    "movement": "slow when others move quickly; economical and unhurried",
+    "posture": "relaxed shoulders and loose stance; never rigid or performatively dominant",
+    "dialogue": "short sentences, longer pauses, occasional dry humor, little explanation",
+    "violence": "avoids unnecessary violence; when unavoidable, acts immediately without anger or theater",
+    "avoid": [
+      "constant anger",
+      "stereotypical alpha poses",
+      "nervous scanning or fidgeting",
+      "luxury exhibition",
+      "motivational speeches",
+      "emotionless villain performance"
+    ]
+  },
+  "wardrobe": {
+    "language": "restrained international elegance halfway between businessman and adventurer",
+    "signatureLook": "cream open-collar textured shirt with sleeves rolled to the forearms, black tailored trousers, black leather boots, understated dark watch",
+    "palette": ["black", "charcoal", "cream", "white", "deep navy", "olive", "chocolate brown", "muted earth"],
+    "materials": ["linen", "cotton", "tailored wool", "leather", "suede"],
+    "avoid": ["visible logos", "corporate tie", "flashy jewelry", "orientalist styling", "ancient Persian costume", "crowns"]
+  },
+  "continuity": {
+    "candidateReference": "reference/cyrus-candidate-reference-v1.png",
+    "invariants": [
+      "facial geometry and apparent age",
+      "dark-brown eye color and observant gaze",
+      "hair length, wave, color, and imperfect forehead strand",
+      "short stubble density and silhouette",
+      "lean body proportions",
+      "relaxed posture and controlled performance",
+      "restrained wardrobe language"
+    ],
+    "allowedVariation": [
+      "wardrobe refinement across story stages",
+      "environmental hair movement",
+      "location-appropriate wear",
+      "tracked injuries",
+      "private softness during The Man scenes"
+    ],
+    "forbidden": [
+      "face substitution",
+      "untracked age shift",
+      "bodybuilder proportions",
+      "long beard",
+      "slick corporate styling",
+      "Persian stereotype or costume",
+      "undisclosed depiction as a real person"
+    ]
+  }
+}
