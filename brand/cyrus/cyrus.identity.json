@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "id": "aety-one.character.cyrus",
   "displayName": "Cyrus",
-  "status": "candidate-reference",
+  "status": "approved-reference-v1",
   "disclosure": "Cyrus is a fictional AI character created for the ÆTY ONE universe.",
   "heritage": {
     "nationality": "Persian / Iranian",
@@ -45,13 +45,22 @@
   },
   "wardrobe": {
     "language": "restrained international elegance halfway between businessman and adventurer",
-    "signatureLook": "cream open-collar textured shirt with sleeves rolled to the forearms, black tailored trousers, black leather boots, understated dark watch",
+    "signatureLook": "black unstructured tailored suit, open white or cream shirt without a tie, black tailored trousers, black leather shoes, understated dark watch",
     "palette": ["black", "charcoal", "cream", "white", "deep navy", "olive", "chocolate brown", "muted earth"],
     "materials": ["linen", "cotton", "tailored wool", "leather", "suede"],
     "avoid": ["visible logos", "corporate tie", "flashy jewelry", "orientalist styling", "ancient Persian costume", "crowns"]
   },
   "continuity": {
-    "candidateReference": "reference/cyrus-candidate-reference-v1.png",
+    "referenceSet": [
+      {
+        "path": "reference/cyrus-primary-full-body-v1.png",
+        "role": "Primary authority for face, body proportions, hair, formal silhouette, and posture"
+      },
+      {
+        "path": "reference/cyrus-character-board-v1.png",
+        "role": "Authority for close-up mood, wardrobe range, accessories, environments, and cultural tone"
+      }
+    ],
     "invariants": [
       "facial geometry and apparent age",
       "dark-brown eye color and observant gaze",
@@ -60,6 +69,13 @@
       "lean body proportions",
       "relaxed posture and controlled performance",
       "restrained wardrobe language"
+    ],
+    "optionalMotifs": [
+      "understated watch",
+      "restrained signet ring",
+      "dark sunglasses",
+      "cigarette only when narratively intentional and never as a permanent identity feature",
+      "private references to Persian poetry and art"
     ],
     "allowedVariation": [
       "wardrobe refinement across story stages",

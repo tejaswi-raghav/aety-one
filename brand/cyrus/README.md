@@ -6,12 +6,13 @@ Cyrus is a contemporary Persian outsider who develops into a strategist, operato
 
 ## Status
 
-The first visual identity is a **candidate**, awaiting face approval:
+**Approved visual reference set — V1**
 
-- [Candidate reference](reference/cyrus-candidate-reference-v1.png)
+- [Primary full-body identity](reference/cyrus-primary-full-body-v1.png) — authoritative for face, body proportions, hair, formal silhouette, and posture
+- [Character and world board](reference/cyrus-character-board-v1.png) — authoritative for close-up mood, wardrobe range, accessories, environments, and cultural tone
 - [Identity contract](cyrus.identity.json)
 
-Do not use the candidate as a permanent production identity until it is explicitly approved. Once approved, create the full reference pack from the same face: front, three-quarter, profile, expression range, full-body front/rear/side, seated pose, and walking pose.
+These supplied references replace the generated candidate completely. All new Cyrus imagery must use both references together. The next production asset is a clean reference pack derived from this exact face: front, three-quarter, profile, expression range, full-body front/rear/side, seated pose, and walking pose.
 
 ## Central rule
 
@@ -25,7 +26,7 @@ Cyrus does not become powerful and then develop confidence. His unreasonable con
 - Thick, medium-short, naturally wavy dark hair
 - Carefully maintained short dark stubble
 - Relaxed shoulders, loose posture, observant gaze
-- Cream open-collar shirt, rolled sleeves, black tailored trousers, black leather boots, dark watch
+- Black unstructured suit, open white or cream shirt, black tailored trousers, black leather shoes, dark watch
 - Expensive through fit, material, and restraint—not logos
 
 ## Separation from Odin
